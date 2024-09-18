@@ -22,4 +22,12 @@ public class User {
     public User getUserWithoutName() {
         return new User(RandomStringUtils.randomAlphanumeric(6) + "yandex.ru", RandomStringUtils.randomAlphanumeric(8), null);
     }
+
+    public User getIncorrectLoginUser() {
+        return new User("denissangiincorrect@yandex.ru", "Qwer1234", "Denis Sangi");
+    }
+
+    public User getIncorrectPasswordUser() {
+        return new User("denissangi@yandex.ru", "incorrectPassw0rd", "Denis Sangi");
+    }
 }

@@ -6,7 +6,7 @@ import org.junit.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-public class UserTest {
+public class RegistrationTest {
 
     private final User randomUser = new User().getRandomUser();
     private final User existedUser = new User().getExistedUser();
