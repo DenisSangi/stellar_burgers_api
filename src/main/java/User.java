@@ -18,4 +18,8 @@ public class User {
     public User getRandomUser() {
         return new User(RandomStringUtils.randomAlphanumeric(6) + "@yandex.ru", RandomStringUtils.randomAlphanumeric(8), RandomStringUtils.randomAlphanumeric(6));
     }
+
+    public User getUserWithoutName() {
+        return new User(RandomStringUtils.randomAlphanumeric(6) + "yandex.ru", RandomStringUtils.randomAlphanumeric(8), null);
+    }
 }

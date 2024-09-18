@@ -6,12 +6,14 @@ import org.junit.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-import io.restassured.response.Response;
-
 public class UserTest {
 
     private final User randomUser = new User().getRandomUser();
     private final User existedUser = new User().getExistedUser();
+    private final User userWithoutName = new User().getUserWithoutName();
+
+    private final String register = "/auth/register";
+    private final String[] header = {"Content-type", "application/json"};
 
     @Before
     public void setup() {
@@ -20,17 +22,46 @@ public class UserTest {
 
     @Test
     public void createNewUserAndCheckStatusCodeAndBody() {
-        Response response =
                 given()
-                    .header("Content-type", "application/json")
+                    .header(header[0], header[1])
                     .and()
                     .body(randomUser)
                     .when()
-                    .post("/auth/register");
-        response.then().assertThat().body("user.name",equalTo(randomUser.getName()))
-                .and()
-                .statusCode(200);
+                    .post(register)
+                    .then()
+                    .assertThat().body("user.name",equalTo(randomUser.getName()))
+                    .and()
+                    .statusCode(200);
 
     }
 
+    @Test
+    public void createExistedUserAndCheckStatusCodeAndMessage() {
+        given()
+                .header(header[0], header[1])
+                .and()
+                .body(existedUser)
+                .when()
+                .post(register)
+                .then()
+                .assertThat().body("message", equalTo("User already exists"))
+                .and()
+                .statusCode(403);
+    }
+
+    @Test
+    public void createUserWithoutNameAndCheckStatusCodeAndMessage() {
+        given()
+                .header(header[0], header[1])
+                .and()
+                .body(userWithoutName)
+                .when()
+                .post(register)
+                .then()
+                .assertThat().body("message", equalTo("Email, password and name are required fields"))
+                .and()
+                .statusCode(403);
+
+
+    }
 }
